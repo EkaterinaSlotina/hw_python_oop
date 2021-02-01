@@ -30,7 +30,7 @@ class Calculator:
     def get_week_stats(self):
         count_week = 0
         date_today = dt.datetime.now().date()
-        date_week_ago = date_today - dt.timedelta(days = 7)
+        date_week_ago = date_today - dt.timedelta(days=7)
         for every_record in self.records:
             if date_week_ago < every_record.date <= date_today:
                 count_week += every_record.amount
@@ -62,9 +62,11 @@ class CashCalculator(Calculator):
         if remainder == 0:
             return 'Денег нет, держись'
         elif remainder > 0:
-            return f'На сегодня осталось {remained} {currency_transform_string_map[currency]}'
+            return f'На сегодня осталось ' \
+                   f'{remained} {currency_transform_string_map[currency]}'
         else:
-            return f'Денег нет, держись: твой долг - {abs(remained)} {currency_transform_string_map[currency]}'
+            return f'Денег нет, держись: твой долг - {abs(remained)} ' \
+                   f'{currency_transform_string_map[currency]}'
 
 
 class CaloriesCalculator(Calculator):
@@ -74,7 +76,8 @@ class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
         count_calories = self.get_today_stats()
         if count_calories < self.limit:
-            return f'Сегодня можно съесть что-нибудь ещё, но с общей калорийностью не более {self.limit - count_calories} кКал'
+            return f'Сегодня можно съесть что-нибудь ещё, ' \
+                   f'но с общей калорийностью не более {self.limit - count_calories} кКал'
         else:
             return "Хватит есть!"
 
