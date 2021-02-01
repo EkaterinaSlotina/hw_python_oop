@@ -156,6 +156,5 @@ class TestCashCalculator:
         result.USD_RATE = 60
         monkeypatch.setattr(homework.CashCalculator, "USD_RATE", 60)
         result.limit = today + (amount * 300)
-        print(f'azaz, {today_cash_remained(amount, currency)}, {result.get_today_cash_remained(currency)}')
         assert re.fullmatch(today_cash_remained(amount, currency), result.get_today_cash_remained(currency)), \
             msg_err('wrong_method', 'get_today_cash_remained', 'CashCalculator')
