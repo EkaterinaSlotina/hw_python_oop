@@ -22,7 +22,8 @@ class Calculator:
     def get_today_stats(self):
         count = 0
         date_today = dt.date.today()
-        count = sum(record.amount for record in self.records if record.date == date_today)
+        count = sum(record.amount for record in self.records
+                    if record.date == date_today)
         return count
 
     def get_week_stats(self):
