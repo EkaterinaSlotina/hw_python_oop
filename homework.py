@@ -68,5 +68,3 @@ class CaloriesCalculator(Calculator):
                     'но с общей калорийностью не более '
                     f'{self.limit - self.get_today_stats()} кКал')
         return "Хватит есть!"
-
-
