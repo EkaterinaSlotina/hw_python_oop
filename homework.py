@@ -1,14 +1,16 @@
 import datetime as dt
+FORMAT_DATE = '%d.%m.%Y'
 
 
 class Record:
+
     def __init__(self, amount, comment, date=None):
         self.amount = amount
         self.comment = comment
         if date is None:
             self.date = dt.date.today()
         else:
-            self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
+            self.date = dt.datetime.strptime(date, FORMAT_DATE).date()
 
 
 class Calculator:
@@ -20,24 +22,20 @@ class Calculator:
         self.records.append(new_record)
 
     def get_today_stats(self):
-        count = 0
         date_today = dt.date.today()
         count = sum(record.amount for record in self.records
                     if record.date == date_today)
         return count
 
     def get_week_stats(self):
-        count_week = 0
         date_today = dt.date.today()
         date_week_ago = date_today - dt.timedelta(days=7)
-        for record in self.records:
-            if date_week_ago < record.date <= date_today:
-                count_week += record.amount
+        count_week = sum(record.amount for record in self.records
+                         if date_week_ago < record.date <= date_today)
         return count_week
 
     def remained(self):
-        limit_remained = self.limit - self.get_today_stats()
-        return limit_remained
+        return self.limit - self.get_today_stats()
 
 
 class CashCalculator(Calculator):
@@ -49,15 +47,20 @@ class CashCalculator(Calculator):
         currency_map = {'usd': (self.USD_RATE, 'USD'),
                         'eur': (self.EURO_RATE, 'Euro'),
                         'rub': (self.RUB_RATE, 'руб')}
-        if self.remained() == 0:
+        if currency not in currency_map:
+            return 'Введите другую валюту. Данная валюта не поддерживается'
+        remained = self.remained()
+        if remained == 0:
             return 'Денег нет, держись'
-        remained = round(float(self.remained() / currency_map[currency][0]), 2)
-        if self.remained() > 0:
+        rate, symbol = currency_map[currency]
+        remained_in_currency = round(float(remained / rate), 2)
+        if remained > 0:
             return ('На сегодня осталось '
-                    f'{remained} {currency_map[currency][1]}')
+                    f'{remained_in_currency} {symbol}')
         else:
-            return (f'Денег нет, держись: твой долг - {abs(remained)} '
-                    f'{currency_map[currency][1]}')
+            remained_in_currency_abs = abs(remained_in_currency)
+            return (f'Денег нет, держись: твой долг - {remained_in_currency_abs} '
+                    f'{symbol}')
 
 
 class CaloriesCalculator(Calculator):
@@ -66,5 +69,10 @@ class CaloriesCalculator(Calculator):
         if self.remained() > 0:
             return ('Сегодня можно съесть что-нибудь ещё, '
                     'но с общей калорийностью не более '
-                    f'{self.limit - self.get_today_stats()} кКал')
+                    f'{self.remained()} кКал')
         return "Хватит есть!"
+
+
+
+
+
