@@ -1,8 +1,8 @@
 import datetime as dt
-FORMAT_DATE = '%d.%m.%Y'
 
 
 class Record:
+    FORMAT_DATE = '%d.%m.%Y'
 
     def __init__(self, amount, comment, date=None):
         self.amount = amount
@@ -10,7 +10,7 @@ class Record:
         if date is None:
             self.date = dt.date.today()
         else:
-            self.date = dt.datetime.strptime(date, FORMAT_DATE).date()
+            self.date = dt.datetime.strptime(date, self.FORMAT_DATE).date()
 
 
 class Calculator:
