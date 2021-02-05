@@ -59,8 +59,8 @@ class CashCalculator(Calculator):
                     f'{remained_in_currency} {symbol}')
         else:
             remained_in_currency_abs = abs(remained_in_currency)
-            return (f'Денег нет, держись: твой долг - {remained_in_currency_abs} '
-                    f'{symbol}')
+            return ('Денег нет, держись: твой долг - '
+                    f'{remained_in_currency_abs} {symbol}')
 
 
 class CaloriesCalculator(Calculator):
@@ -71,8 +71,4 @@ class CaloriesCalculator(Calculator):
                     'но с общей калорийностью не более '
                     f'{self.remained()} кКал')
         return "Хватит есть!"
-
-
-
-
 
