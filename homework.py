@@ -71,4 +71,3 @@ class CaloriesCalculator(Calculator):
                     'но с общей калорийностью не более '
                     f'{self.remained()} кКал')
         return "Хватит есть!"
-
